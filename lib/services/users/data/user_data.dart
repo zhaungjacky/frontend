@@ -17,19 +17,16 @@ abstract interface class UserData {
 class UserDataImpl implements UserData {
   @override
   Future<UserInfo?> addUser(Object info) {
-    // TODO: implement addUser
     throw UnimplementedError();
   }
 
   @override
   Future<void> deleteUser(UserInfo info) {
-    // TODO: implement deleteUser
     throw UnimplementedError();
   }
 
   @override
-  Future<UserInfo?> getUser(String id) {
-    // TODO: implement getUser
+  Future<UserInfo?> getUser(String id) async {
     throw UnimplementedError();
   }
 
@@ -52,24 +49,25 @@ class UserDataImpl implements UserData {
       );
       // print(res.statusCode);
       if (res.statusCode == 200) {
-        final body = res.body;
-        print("res_body $body");
-        final listsDecode = jsonDecode(body) as List<Map<String, dynamic>>;
-        final lists = listsDecode.map((ele) => UserInfo.fromJson(ele)).toList();
-        // print(listsDecode);
+        final List<Map<String, dynamic>> body =
+            List.from(json.decode(utf8.decode(res.bodyBytes)) as List);
+        // final List<Map<String, dynamic>> body =
+        //     List.from(jsonDecode(res.body) as List);
+
+        // print(body.runtimeType);
+        final lists = body.map((ele) => UserInfo.fromJson(ele)).toList();
         return lists;
       } else {
         return null;
       }
     } catch (err) {
-      print(err);
-      return null;
+      // print(err.toString());
+      throw Exception(err.toString());
     }
   }
 
   @override
   Future<UserInfo?> updateUser(UserInfo info) {
-    // TODO: implement updateUser
     throw UnimplementedError();
   }
 }

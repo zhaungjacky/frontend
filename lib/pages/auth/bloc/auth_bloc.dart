@@ -29,13 +29,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final isExpired = JwtDecoder.isExpired(res);
         // print(isExpired);
         if (isExpired) {
-          emit(AuthFailureState());
+          emit(const AuthFailureOrErrorState(
+            message: 'Token expored, please login again',
+          ));
         } else {
           emit(AuthSuccessState());
         }
       }
-    } catch (_) {
-      emit(AuthFailureState());
+    } catch (error) {
+      emit(AuthFailureOrErrorState(message: error.toString()));
     }
   }
 
@@ -48,19 +50,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (res != null && res.access!.isNotEmpty) {
         emit(AuthSuccessState());
       } else {
-        emit(AuthFailureState());
+        emit(const AuthFailureOrErrorState(
+          message: 'Invalid Username Or Password',
+        ));
       }
     } catch (err) {
-      emit(AuthFailureState());
+      emit(AuthFailureOrErrorState(
+        message: err.toString(),
+      ));
     }
   }
 
   _logout(AuthLogoutEvent event, Emitter emit) async {
     try {
       await _authRepo.logout();
-      emit(AuthFailureState());
+      emit(const AuthFailureOrErrorState(
+        message: "Logout success",
+      ));
     } catch (err) {
-      emit(AuthFailureState());
+      emit(AuthFailureOrErrorState(message: err.toString()));
     }
   }
 

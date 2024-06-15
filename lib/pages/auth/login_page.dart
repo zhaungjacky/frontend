@@ -7,6 +7,8 @@ import 'package:gap/gap.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
+  static String routerPath() => "/login";
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -19,10 +21,10 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     //get usrename from localstorage
-    ininUsername();
+    initUsername();
   }
 
-  Future<void> ininUsername() async {
+  Future<void> initUsername() async {
     try {
       final res = await getUsernameFromLocalstorage();
       if (res != null) {

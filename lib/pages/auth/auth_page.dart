@@ -53,8 +53,26 @@ class _AuthPageState extends State<AuthPage> {
             return const CircularProgressIndicator();
           case AuthSuccessState():
             return const UsersPage();
-          case AuthFailureState():
+          case AuthFailureOrErrorState():
             return const LoginPage();
+          // Scaffold(
+          //   appBar: AppBar(
+          //     title: const Text("Logout"),
+          //     centerTitle: true,
+          //     actions: [
+          //       IconButton(
+          //           onPressed: () {
+          //             context.go(
+          //               LoginPage.routerPath(),
+          //             );
+          //           },
+          //           icon: const Icon(Icons.person))
+          //     ],
+          //   ),
+          //   body: Center(
+          //     child: Text(state.message),
+          //   ),
+          // );
         }
       },
     );

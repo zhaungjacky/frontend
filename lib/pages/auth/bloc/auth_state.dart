@@ -19,7 +19,12 @@ final class AuthProcessingState extends AuthState {
 
 final class AuthSuccessState extends AuthState {}
 
-final class AuthFailureState extends AuthState {}
+final class AuthFailureOrErrorState extends AuthState {
+  final String message;
+
+  const AuthFailureOrErrorState({required this.message});
+}
+
 
 // final class AuthErrorState extends AuthState {
 //   final String error;

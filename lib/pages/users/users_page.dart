@@ -13,7 +13,6 @@ class UsersPage extends StatefulWidget {
 class _UsersPageState extends State<UsersPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<UsersBloc>().add(UsersLoadingEvent());
   }
@@ -50,28 +49,33 @@ class _UsersPageState extends State<UsersPage> {
           ),
         ),
       ),
-      body: BlocBuilder<UsersBloc, UsersState>(
-        builder: (context, state) {
-          switch (state) {
-            case UsersInitial():
-              return const CircularProgressIndicator();
-            case UsersSuccessState():
-              final lists = state.usersinfo;
-              return ListView.builder(
-                  itemCount: lists.length,
-                  itemBuilder: (context, index) {
-                    final item = lists[index];
-                    return ListTile(
-                      title: Text(item.name),
-                      subtitle: Text(item.email),
-                    );
-                  });
-            case UsersFailureState():
-              return const Text("Fetch data failure");
-            case UsersErrorState():
-              return Text(state.error);
-          }
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: BlocBuilder<UsersBloc, UsersState>(
+            builder: (context, state) {
+              switch (state) {
+                case UsersInitial():
+                  return const CircularProgressIndicator();
+                case UsersSuccessState():
+                  final lists = state.usersinfo;
+                  return ListView.builder(
+                      itemCount: lists.length,
+                      itemBuilder: (context, index) {
+                        final item = lists[index];
+                        return ListTile(
+                          title: Text(item.name),
+                          subtitle: Text(item.email),
+                        );
+                      });
+                case UsersFailureState():
+                  return const Text("Fetch data failure");
+                case UsersErrorState():
+                  return Text(state.error);
+              }
+            },
+          ),
+        ),
       ),
     );
   }
